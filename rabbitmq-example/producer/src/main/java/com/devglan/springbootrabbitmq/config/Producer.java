@@ -2,7 +2,6 @@ package com.devglan.springbootrabbitmq.config;
 
 import com.devglan.springbootrabbitmq.payload.MyMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,13 +15,8 @@ public class Producer {
         this.rabbitMQProperties = rabbitMQProperties;
     }
 
-    //@Scheduled(fixedDelay = 3000L)
-    public void send(){
-        sendMessage(new MyMessage("type111", "msg111"));
-    }
-
     public void sendMessage(MyMessage myMessage){
-        rabbitTemplate.convertAndSend(rabbitMQProperties.getExchangeName(), "devglan.routingkey2", myMessage);
+        rabbitTemplate.convertAndSend(rabbitMQProperties.getExchangeName(), "kuzin.routingkey1", myMessage);
         System.out.println("Sent: " + myMessage);
     }
 }

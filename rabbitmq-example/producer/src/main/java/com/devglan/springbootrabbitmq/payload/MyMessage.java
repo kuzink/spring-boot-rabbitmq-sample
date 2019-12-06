@@ -9,8 +9,7 @@ public class MyMessage {
     private String type;
     private String msg;
 
-    public MyMessage(@JsonProperty("type") final String type,
-                     @JsonProperty("msg") final String msg) {
+    public MyMessage(@JsonProperty("type") final String type, @JsonProperty("msg") final String msg) {
         this.type = type;
         this.msg = msg;
     }

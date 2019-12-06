@@ -1,0 +1,41 @@
+# Properties active for ALL profiles:
+
+---
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+
+# Properties active for specific profile
+# Specify profile: -Dspring.profiles.active=verb
+
+---
+spring:
+  profiles: verb
+  application:
+    name: verb
+server:
+  port: 8081
+rabbitmq:
+  queueName: kuzin.queue1
+  exchangeName: kuzin-exchange
+  routingKey: kuzin.routingkey1
+type: verb
+words: ran,knew,had,saw,bought
+
+---
+spring:
+  profiles: noun
+  application:
+    name: noun
+server:
+  port: 8082
+rabbitmq:
+  queueName: kuzin.queue2
+  exchangeName: kuzin-exchange
+  routingKey: kuzin.routingkey1
+type: noun
+words: boat,book,vote,seat,backpack,partition,groundhog

@@ -1,12 +1,20 @@
 package com.devglan.springbootrabbitmq.config;
 
 import com.devglan.springbootrabbitmq.payload.MyMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+import java.util.Random;
 
 @Component
 public class Listener {
+
+    @Value("${type}")
+    String type;
+
+    @Value("${words}")
+    String[] words;
 
     private Producer producer;
 
@@ -14,13 +22,14 @@ public class Listener {
         this.producer = producer;
     }
 
-    @RabbitListener(queues="${rabbitmq.queueName}")
-    public void listen(final Message message) {
-        System.out.println("Received: " + message.getPayload());
 
-        MyMessage myMessage = (MyMessage) message.getPayload();
-        myMessage.setType(myMessage.getType() + "resend");
-        myMessage.setMsg(myMessage.getMsg() + "resend");
-        producer.sendMessage(myMessage);
+    public MyMessage generateResponseMsg() {
+        return new MyMessage(type, words[new Random().nextInt(words.length)]);
+    }
+
+    @RabbitListener(queues="${rabbitmq.queueName}")
+    public void listen(Message message) {
+        System.out.println("Received: " + message.getPayload());
+        producer.sendMessage(generateResponseMsg());
     }
 }
